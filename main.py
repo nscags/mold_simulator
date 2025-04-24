@@ -1,11 +1,11 @@
 import numpy as np
 from time import time
 
-from particle import Particle
-from trailmap import TrailMap
-from metric_tracker import MetricTracker
-from graph_factory import GraphFactory
-from simulator import Simulator
+from mold_simulator.particle import Particle
+from mold_simulator.trailmap import TrailMap
+from mold_simulator.metric_tracker import MetricTracker
+from mold_simulator.graph_factory import GraphFactory
+from mold_simulator.simulator import Simulator
 
 
 def main():
@@ -29,17 +29,16 @@ def main():
 
     sim = Simulator(particles, trail_map, metric_tracker)
     sim.run(n_frames)
-    sim.save_gif("slime_mold_simulation.gif")
-    metric_tracker.save_to_csv("simulation_metrics.csv")
+    sim.save_gif("results/slime_mold_simulation.gif")
+    metric_tracker.save_to_csv("results/simulation_metrics.csv")
 
     # TODO: plot cluster analysis (average distance between particles)
     #       
-    graph_factory.plot_entropy(metric_tracker.entropy_log, save_path="entropy_plot.png")
+    graph_factory.plot_entropy(metric_tracker.entropy_log, save_path="results/entropy_plot.png")
 
 
 if __name__ == "__main__":
     start = time()
     main()
     end = time()
-
     print(f"Runtime: {end - start}")
