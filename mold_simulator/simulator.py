@@ -1,11 +1,13 @@
 import numpy as np
 import matplotlib.pyplot as plt
 import matplotlib.animation as animation
+from matplotlib.animation import FFMpegWriter
 from typing import List
+import sys
 
-from particle import Particle
-from trailmap import TrailMap
-from metric_tracker import MetricTracker
+from .particle import Particle
+from .trailmap import TrailMap
+from .metric_tracker import MetricTracker
 
 
 class Simulator:
@@ -52,9 +54,20 @@ class Simulator:
         """
         Runs the full simulation for a given number of steps.
         """
-        for _ in range(n_frames):
+        spinner = ['|', '/', '-', '\\']
+        cycle = 0
+        for i in range(n_frames):
+            if i % 10 == 0:
+                sys.stdout.write('\033[F')         
+                sys.stdout.write('\033[40C')      
+                sys.stdout.write(spinner[cycle % len(spinner)] + '\n')  
+                sys.stdout.flush()
+                cycle += 1
             self.step()
             self.render_frame()
+        sys.stdout.write('\033[F')         
+        sys.stdout.write('\033[40C') 
+        sys.stdout.write("✓" '\n')
 
     def render_frame(self) -> None:
         """
@@ -65,7 +78,7 @@ class Simulator:
 
     def save_gif(
         self, 
-        filename: str = "slime_mold_simulation.gif"
+        filename: str = "slime_mold_simulation.mp4"
     ) -> str:
         """
         Generates and saves an animated GIF from the collected frames.
@@ -85,5 +98,6 @@ class Simulator:
             blit=True
         )
 
-        ani.save(filename, writer='pillow')
+        # ani.save(filename, writer='pillow')
+        ani.save(filename, writer=FFMpegWriter(fps=10))
         return filename

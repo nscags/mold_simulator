@@ -1,2 +1,6 @@
 # ignore cache files
 __pycache__/
+# ignore data files
+*.gif
+*.csv
+results/trial*
