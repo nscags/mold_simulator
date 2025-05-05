@@ -15,7 +15,7 @@ cd mold_simulator/
 pip install -r requirements.txt
 
 # run simulator
-python3 simulator.py
+python3 simulate.py
 
 # Note:
 # if you don't have ffpmeg installed
